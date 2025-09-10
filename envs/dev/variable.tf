@@ -26,6 +26,12 @@ variable "db_schema" {
   type        = string
   default     = "record"
 }
+
+variable "jwt_secret" {
+  description = "Secret key for signing JWT tokens"
+  type        = string
+  sensitive   = true
+}
 variable "github_owner" {
   description = "GitHub repository owner"
   type        = string
