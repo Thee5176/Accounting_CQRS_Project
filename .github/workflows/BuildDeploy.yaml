@@ -99,12 +99,13 @@ jobs:
             echo "DB_URL=${{ secrets.DB_URL }}"           >  env.properties
             echo "DB_USERNAME=${{ vars.DB_USER }}"        >> env.properties
             echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> env.properties
+            echo "JWT_SECRET=${{ secrets.JWT_SECRET }}"   >> env.properties
             echo "VITE_HOST_IP=${{ secrets.EC2_PUBLIC_IP }}" >> env.properties
             echo "VITE_COMMAND_PORT=8181"                 >> env.properties
             echo "VITE_QUERY_PORT=8182"                   >> env.properties
 
             echo "--- Pulling latest Docker images: ---"
-            sudo service docker start
+            sudo service dockSWer start
             docker-compose -f docker/compose.yaml -f docker/docker-compose.override.yaml pull
             docker-compose -f docker/compose.yaml -f docker/docker-compose.override.yaml up -d --force-recreate --remove-orphans
             
