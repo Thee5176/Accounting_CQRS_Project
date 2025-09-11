@@ -36,19 +36,18 @@ resource "aws_route_table" "public_route" {
 
 # Public Table Association : connect EC2 subnet with public route table
 resource "aws_route_table_association" "public_subnet_association" {
-  subnet_id      = aws_subnet.server_subnet.id
+  subnet_id      = module.ec2.aws_subnet.server_subnet.id
   route_table_id = aws_route_table.public_route.id
 }
 
-
 # RDS Table Association : connect RDS subnet with public route table
 resource "aws_route_table_association" "db_subnet1_assoc" {
-  subnet_id      = aws_subnet.db_subnet_1.id
+  subnet_id      = module.rds.subnet_group_id_1
   route_table_id = aws_route_table.public_route.id
 }
 
 resource "aws_route_table_association" "db_subnet2_assoc" {
-  subnet_id      = aws_subnet.db_subnet_2.id
+  subnet_id      = module.rds.subnet_group_id_2
   route_table_id = aws_route_table.public_route.id
 }
 

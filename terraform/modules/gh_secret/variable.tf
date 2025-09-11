@@ -4,15 +4,10 @@ variable "aws_access_key" {
   sensitive   = true
 }
 
-variable "aws_secret_key" {
-  description = "AWS secret key"
-  type        = string
-  sensitive   = true
-}
 variable "db_username" {
   description = "RDS root username for the database"
   type        = string
-  default     = "db_master"
+  sensitive = false
 }
 
 variable "db_password" {
@@ -24,7 +19,13 @@ variable "db_password" {
 variable "db_schema" {
   description = "RDS database name to be created."
   type        = string
-  default     = "record"
+  sensitive = false
+}
+
+variable "aws_secret_key" {
+  description = "AWS secret key"
+  type        = string
+  sensitive   = true
 }
 
 variable "jwt_secret" {
@@ -35,7 +36,7 @@ variable "jwt_secret" {
 variable "github_owner" {
   description = "GitHub repository owner"
   type        = string
-  default     = "Thee5176"
+  sensitive = false
 }
 variable "github_token" {
   description = "GitHub token with repo and admin:repo_hook permissions"

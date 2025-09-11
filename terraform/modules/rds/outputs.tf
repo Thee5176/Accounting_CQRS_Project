@@ -1,14 +1,19 @@
-# EC2
-output "ec2_instance_id" {
-  description = "EC2 instance id"
-  value       = aws_instance.web_server.id
-}
-output "ec2_instance_public_ip" {
-  description = "EC2 public IP address"
-  value       = aws_instance.web_server.public_ip
+# DB
+output "subnet_group_id_1" {
+  description = "RDS subnet group id"
+  value       = aws_subnet.db_subnet_1.id
 }
 
-# DB
+output "subnet_group_id_2" {
+  description = "RDS subnet group id"
+  value       = aws_subnet.db_subnet_2.id
+}
+
+output "security_group_id" {
+  description = "RDS security group id"
+  value       = aws_security_group.db_sg.id
+}
+
 output "rds_instance_id" {
   description = "RDS instance id"
   value       = aws_db_instance.web_db.id

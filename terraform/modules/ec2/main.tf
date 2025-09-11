@@ -1,16 +1,3 @@
-##------------------------EC2 Instance---------------------------
-# EC2 Subnet : define IP address range based on VPC
-resource "aws_subnet" "server_subnet" {
-  vpc_id            = aws_vpc.main_vpc.id
-  cidr_block        = "172.16.0.0/24"
-  availability_zone = "ap-northeast-1a"
-
-  tags = {
-    Name    = "web-server",
-    project = "accounting-cqrs-project"
-  }
-}
-
 # EC2
 resource "aws_instance" "web_server" {
   ami                         = "ami-000322c84e9ff1be2" #Amazon Linux 2 (ap-ne-1)
@@ -51,11 +38,25 @@ resource "aws_instance" "web_server" {
   }
 }
 
+# EC2 Subnet : define IP address range based on VPC
+
+resource "aws_subnet" "server_subnet" {
+  vpc_id            = module.vpc.id
+  cidr_block        = "172.16.0.0/24"
+  availability_zone = "ap-northeast-1a"
+
+  tags = {
+    Name    = "web-server",
+    project = "accounting-cqrs-project"
+  }
+}
+
+
 # EC2 Security Group : allow access in instance level
 # TODO : port 22, 80, 8181, 8182 restrict to ALB's private subnet (restrain the CIDR block)
 resource "aws_security_group" "web_sg" {
   description = "Allow SSH and HTTP inbound traffic"
-  vpc_id      = aws_vpc.main_vpc.id
+  vpc_id      = module.vpc.id
   ingress {
     description = "SSH from anywhere"
     from_port   = 22

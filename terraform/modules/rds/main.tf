@@ -1,4 +1,22 @@
-##------------------------RDS Instance---------------------------
+# RDS
+resource "aws_db_instance" "web_db" {
+  instance_class         = "db.t3.micro"
+  engine                 = "postgres"
+  engine_version         = "17.4"
+  allocated_storage      = 5
+  username               = var.db_username
+  password               = var.db_password
+  db_name                = var.db_schema
+  vpc_security_group_ids = [aws_security_group.db_sg.id]
+  db_subnet_group_name   = aws_db_subnet_group.my_db_subnet_group.name
+  parameter_group_name   = aws_db_parameter_group.my_db_parameter_group.name
+  publicly_accessible    = true
+  skip_final_snapshot    = true
+
+  tags = {
+    Name = "web-db",
+  project = "accounting-cqrs-project" }
+}
 
 # DB Subnet Group : 2 or more subnets in different AZ
 resource "aws_db_subnet_group" "my_db_subnet_group" {
@@ -20,7 +38,7 @@ resource "aws_db_subnet_group" "my_db_subnet_group" {
 
 # Add depends_on to ensure VPC exists before creating subnet
 resource "aws_subnet" "db_subnet_1" {
-  vpc_id            = aws_vpc.main_vpc.id
+  vpc_id            = module.vpc.aws_vpc.main_vpc.id
   cidr_block        = "172.16.1.0/24"
   availability_zone = "ap-northeast-1a"
 
@@ -57,31 +75,11 @@ resource "aws_db_parameter_group" "my_db_parameter_group" {
   }
 }
 
-# RDS
-resource "aws_db_instance" "web_db" {
-  instance_class         = "db.t3.micro"
-  engine                 = "postgres"
-  engine_version         = "17.4"
-  allocated_storage      = 5
-  username               = var.db_username
-  password               = var.db_password
-  db_name                = var.db_schema
-  vpc_security_group_ids = [aws_security_group.db_sg.id]
-  db_subnet_group_name   = aws_db_subnet_group.my_db_subnet_group.name
-  parameter_group_name   = aws_db_parameter_group.my_db_parameter_group.name
-  publicly_accessible    = true
-  skip_final_snapshot    = true
-
-  tags = {
-    Name = "web-db",
-  project = "accounting-cqrs-project" }
-}
-
 # DB Security Group
 # TODO : port 5432 restrict to ALB's private subnet (restrain the CIDR block)
 resource "aws_security_group" "db_sg" {
   description = "Allow SSH and HTTP inbound traffic"
-  vpc_id      = aws_vpc.main_vpc.id
+  vpc_id      = module.vpc.aws_vpc.main_vpc.id
 
   ingress {
     description = "Allow DB access from anywhere"
