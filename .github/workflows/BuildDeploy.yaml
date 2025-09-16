@@ -18,7 +18,7 @@ jobs:
       DB_URL: ${{ secrets.DB_URL }}
       DB_USERNAME: ${{ vars.DB_USER }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      VITE_HOST_IP: ${{ secrets.EC2_PUBLIC_IP }}
+      VITE_HOST_IP: ${{ vars.EC2_PUBLIC_IP }}
       DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
     steps:
@@ -76,8 +76,8 @@ jobs:
           sudo chmod 600 ~/.ssh/my_ec2_key
 
           # add host key to known_hosts to avoid interactive prompt
-          if [ -n "${{ secrets.EC2_PUBLIC_IP }}" ]; then
-            sudo ssh-keyscan -H "${{ secrets.EC2_PUBLIC_IP }}" >> ~/.ssh/known_hosts || true
+          if [ -n "${{ vars.EC2_PUBLIC_IP }}" ]; then
+            sudo ssh-keyscan -H "${{ vars.EC2_PUBLIC_IP }}" >> ~/.ssh/known_hosts || true
             sudo chmod 600 ~/.ssh/known_hosts
           fi
 
@@ -101,7 +101,7 @@ jobs:
             echo "DB_USERNAME=${{ vars.DB_USER }}"        >> env.properties
             echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> env.properties
             echo "JWT_SECRET=${{ secrets.JWT_SECRET }}"   >> env.properties
-            echo "VITE_HOST_IP=${{ secrets.EC2_PUBLIC_IP }}" >> env.properties
+            echo "VITE_HOST_IP=${{ vars.EC2_PUBLIC_IP }}" >> env.properties
             echo "VITE_COMMAND_PORT=8181"                 >> env.properties
             echo "VITE_QUERY_PORT=8182"                   >> env.properties
 
