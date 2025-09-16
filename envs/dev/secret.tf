@@ -8,11 +8,11 @@ resource "github_repository_environment" "dev_environment" {
 }
 
 # EC2 Public IP
-resource "github_actions_environment_secret" "ec2_public_ip" {
+resource "github_actions_environment_variable" "ec2_public_ip" {
   repository      = data.github_repository.repo.name
   environment     = github_repository_environment.dev_environment.environment
-  secret_name     = "EC2_PUBLIC_IP"
-  plaintext_value = aws_instance.web_server.public_ip
+  variable_name   = "EC2_PUBLIC_IP"
+  value = aws_instance.web_server.public_ip
 }
 
 # Backend Database Secrets
