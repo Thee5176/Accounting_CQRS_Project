@@ -33,7 +33,7 @@ resource "github_actions_environment_secret" "db_connection_url" {
   repository      = data.github_repository.repo.name
   environment     = github_repository_environment.dev_environment.environment
   secret_name     = "DB_URL"
-  plaintext_value = format("jdbc:postgresql://%s/%s", aws_db_instance.web_db.endpoint, var.db_schema)
+  plaintext_value = format("jdbc:postgresql://%s/%s", aws_db_instance.web_db.address, var.db_schema)
 }
 resource "github_actions_environment_secret" "jwt_secret" {
   repository      = data.github_repository.repo.name
