@@ -134,8 +134,8 @@ resource "aws_security_group" "web_sg" {
 
   ingress {
     description = "Allow incoming data fetch to command service"
-    from_port   = 8181 # Command Service Port
-    to_port     = 8182 # Query Service Port
+    from_port   = var.command_service_port
+    to_port     = var.query_service_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

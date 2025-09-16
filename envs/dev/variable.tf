@@ -66,3 +66,20 @@ variable "ec2_private_key" {
   type        = string
   sensitive   = true
 }
+
+variable "working_directory" {
+  description = "Working directory for the project"
+  type        = string
+}
+
+variable "command_service_port" {
+  description = "Port for the Command Service"
+  type        = number
+  default     = 8181
+}
+variable "query_service_port" {
+  description = "Port for the Query Service"
+  type        = number
+  default     = 8182
+  
+}

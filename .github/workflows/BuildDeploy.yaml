@@ -19,7 +19,7 @@ jobs:
       DB_USERNAME: ${{ vars.DB_USER }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       VITE_HOST_IP: ${{ secrets.EC2_PUBLIC_IP }}
-      DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USER }}
+      DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
     steps:
       - name: Checkout repository with submodules

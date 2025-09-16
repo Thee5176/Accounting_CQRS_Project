@@ -5,5 +5,8 @@
   "sonarlint.connectedMode.project": {
     "connectionId": "thee5176",
     "projectKey": "Thee5176_SpringBoot_CQRS"
-  }
+  },
+  "java.project.sourcePaths": [
+    ""
+  ]
 }
