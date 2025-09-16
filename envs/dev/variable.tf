@@ -42,3 +42,27 @@ variable "github_token" {
   type        = string
   sensitive   = true
 }
+
+variable "aws_region" {
+  description = "AWS region to deploy resources"
+  type        = string
+  default     = "ap-northeast-1"
+}
+
+variable "dockerhub_username" {
+  description = "Docker Hub username"
+  type        = string
+  default     = "thee5176"
+}
+
+variable "dockerhub_token" {
+  description = "Docker Hub access token"
+  type        = string
+  sensitive   = true
+}
+
+variable "ec2_private_key" {
+  description = "Private key for SSH access to EC2 instance"
+  type        = string
+  sensitive   = true
+}
