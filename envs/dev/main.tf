@@ -75,7 +75,7 @@ resource "aws_subnet" "server_subnet" {
 # EC2
 resource "aws_instance" "web_server" {
   ami                         = "ami-000322c84e9ff1be2" #Amazon Linux 2 (ap-ne-1)
-  instance_type               = "t2.micro"
+  instance_type               = "t3.micro"
   key_name                    = data.aws_key_pair.deployment_key.key_name
   subnet_id                   = aws_subnet.server_subnet.id
   vpc_security_group_ids      = [aws_security_group.web_sg.id]
