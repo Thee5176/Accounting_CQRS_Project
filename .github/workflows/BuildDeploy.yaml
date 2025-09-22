@@ -103,8 +103,10 @@ jobs:
           
             echo "--- Checkout Latest Compose File from Branch ${{ github.head_ref }}: ---"
             cd SpringBoot_CQRS
+            # Ensure we're on the right branch and have latest changes
+            git fetch origin ${{ github.head_ref }} || true
             git reset --hard HEAD
-            git pull origin ${{ github.head_ref }}
+            git pull origin ${{ github.head_ref }} || git pull origin main
 
             echo "--- Setup Environment Variables outside git repo: ---"
             echo "DB_URL=${{ secrets.DB_URL }}"           >  env.properties
@@ -116,7 +118,7 @@ jobs:
             echo "VITE_QUERY_PORT=8182"                   >> env.properties
 
             echo "--- Pulling latest Docker images: ---"
-            sudo service dockSWer start
+            sudo service docker start
             docker-compose -f docker/compose.yaml -f docker/docker-compose.override.yaml pull
             docker-compose -f docker/compose.yaml -f docker/docker-compose.override.yaml up -d --force-recreate --remove-orphans
             
