@@ -101,7 +101,7 @@ resource "aws_instance" "web_server" {
     docker-compose --version
 
     # Clone the repository and checkout the docker directory
-    git clone https://github.com/Thee5176/SpringBoot_CQRS --no-checkout
+    git clone https://github.com/Thee5176/SpringBoot_CQRS
     cd SpringBoot_CQRS
     git sparse-checkout set docker react_mui_cqrs --no-cone
   EOF
