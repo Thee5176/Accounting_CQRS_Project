@@ -2,23 +2,34 @@ name: Build Docker Image, Deploy to EC2
 on:
   push:
     branches:
-    - main
-    - develop
+      - main
+      - develop
   pull_request:
     types: [opened, synchronize, reopened]
   workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Git ref or branch to run the workflow on'
+        required: false
+        default: 'main'
+      deploy_to_ec2:
+        description: 'Whether to deliver code to EC2 after build'
+        required: true
+        default: true
+        type: boolean
 
 jobs:
   build-and-test:
-    environment: "AWS and Supabase"
+    environment: "Development"
     name: Build and Test CQRS Application
+    
     runs-on: ubuntu-latest
     env:
       DB_URL: ${{ secrets.DB_URL }}
       DB_USERNAME: ${{ vars.DB_USER }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      VITE_HOST_IP: ${{ secrets.EC2_PUBLIC_IP }}
-      DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USER }}
+      VITE_HOST_IP: ${{ vars.EC2_PUBLIC_IP }}
+      DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
     steps:
       - name: Checkout repository with submodules
@@ -52,7 +63,7 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ vars.DOCKERHUB_USER }}
+          username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build and push Docker image
         run: |
@@ -60,7 +71,7 @@ jobs:
 
   deliver-code-via-ssh:
     needs: build-and-test
-    environment: "AWS and Supabase"
+    environment: "Development"
     name: Deliver Code to EC2 Instance via SSH
     runs-on: ubuntu-latest
     steps:
@@ -75,8 +86,8 @@ jobs:
           sudo chmod 600 ~/.ssh/my_ec2_key
 
           # add host key to known_hosts to avoid interactive prompt
-          if [ -n "${{ secrets.EC2_PUBLIC_IP }}" ]; then
-            sudo ssh-keyscan -H "${{ secrets.EC2_PUBLIC_IP }}" >> ~/.ssh/known_hosts || true
+          if [ -n "${{ vars.EC2_PUBLIC_IP }}" ]; then
+            sudo ssh-keyscan -H "${{ vars.EC2_PUBLIC_IP }}" >> ~/.ssh/known_hosts || true
             sudo chmod 600 ~/.ssh/known_hosts
           fi
 
@@ -88,31 +99,31 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
       - name: Deliver Code to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/my_ec2_key ec2-user@${{ secrets.EC2_PUBLIC_IP }} <<EOF
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/my_ec2_key ec2-user@${{ vars.EC2_PUBLIC_IP }} <<EOF
           
             echo "--- Checkout Latest Compose File from Branch ${{ github.head_ref }}: ---"
             cd SpringBoot_CQRS
-            git pull origin ${{ github.head_ref }}
-          
+            # Ensure we're on the right branch and have latest changes
+            git fetch origin ${{ github.head_ref }} || true
+            git reset --hard HEAD
+            git pull origin ${{ github.head_ref }} || git pull origin main
+
             echo "--- Setup Environment Variables outside git repo: ---"
-            echo "DB_URL=${{ secrets.DB_URL }}"           >  ~/.env
-            echo "DB_USERNAME=${{ vars.DB_USER }}"        >> ~/.env
-            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> ~/.env
-            echo "VITE_HOST_IP=${{ secrets.EC2_PUBLIC_IP }}" >> ~/.env
-            echo "VITE_COMMAND_PORT=8181"                 >> ~/.env
-            echo "VITE_QUERY_PORT=8182"                   >> ~/.env
+            echo "DB_URL=${{ secrets.DB_URL }}"           >  env.properties
+            echo "DB_USERNAME=${{ vars.DB_USER }}"        >> env.properties
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> env.properties
+            echo "JWT_SECRET=${{ secrets.JWT_SECRET }}"   >> env.properties
+            echo "VITE_HOST_IP=${{ vars.EC2_PUBLIC_IP }}" >> env.properties
+            echo "VITE_COMMAND_PORT=8181"                 >> env.properties
+            echo "VITE_QUERY_PORT=8182"                   >> env.properties
 
             echo "--- Pulling latest Docker images: ---"
             sudo service docker start
             docker-compose -f docker/compose.yaml -f docker/docker-compose.override.yaml pull
-            docker-compose -f docker/compose.yaml -f docker/docker-compose.override.yaml start
-
-            echo "--- Clean up Environment File ---"
-            echo " " > ~/.env
+            docker-compose -f docker/compose.yaml -f docker/docker-compose.override.yaml up -d --force-recreate --remove-orphans
             
             echo "--- Deployment complete. ---"
           EOF
-        working-directory: envs/dev
       
       - name: Cleanup SSH private key
         if: always()

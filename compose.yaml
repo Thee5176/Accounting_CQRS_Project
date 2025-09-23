@@ -1,0 +1,29 @@
+services:
+  command_service:
+    build: springboot_cqrs_command/.
+    container_name: springboot_cqrs_command
+    environment:
+      - "SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/record"
+      - "SPRING_DATASOURCE_USERNAME=springboot_admin"
+      - "SPRING_DATASOURCE_PASSWORD=password"
+    ports:
+    - "8181:8080"
+    depends_on:
+    - postgres
+
+  query_service:
+    build: springboot_cqrs_query/.
+    container_name: springboot_cqrs_query
+    environment:
+      - "SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/record"
+      - "SPRING_DATASOURCE_USERNAME=springboot_admin"
+      - "SPRING_DATASOURCE_PASSWORD=password"
+      - "SERVER_PORT=8081"
+    ports:
+      - "8182:8081"
+
+  frontend_service:
+    build: react_mui_cqrs/.
+    container_name: react_mui_cqrs
+    ports:
+    - "80:3000"
