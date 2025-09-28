@@ -10,3 +10,7 @@
 	path = react_mui_cqrs
 	url = https://github.com/Thee5176/React_MUI_Accounting_CQRS.git
 	branch = main
+[submodule "terraform_iac"]
+	path = terraform_iac
+	url = https://github.com/Thee5176/terraform_iac.git
+	branch = main
