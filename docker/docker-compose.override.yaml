@@ -1,18 +1,15 @@
 services:
   command_service:
-    build: ../springboot_cqrs_command/.
     image: thee5176/springboot_cqrs_command:latest
     env_file:
       - ../env.properties
 
   query_service:
-    build: ../springboot_cqrs_query/.
     image: thee5176/springboot_cqrs_query:latest
     env_file:
       - ../env.properties
 
   frontend_service:
     build: ../react_mui_cqrs/.
-    image: thee5176/react_cqrs_ui:latest
     env_file:
       - ../env.properties
