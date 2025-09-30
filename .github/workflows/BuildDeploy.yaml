@@ -56,7 +56,7 @@ jobs:
           ./mvnw clean package -Dspring-boot.run.profile=prod
         working-directory: springboot_cqrs_query
 
-      - name: Start All Services
+      - name: Build All Services
         run: |
           docker compose -f docker/compose.yaml -f docker/docker-compose.build.yaml build --no-cache
 

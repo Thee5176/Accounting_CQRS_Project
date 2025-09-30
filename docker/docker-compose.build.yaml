@@ -9,3 +9,4 @@ services:
 
   frontend_service:
     build: ../react_mui_cqrs/.
+    image: thee5176/react_cqrs_ui:latest
