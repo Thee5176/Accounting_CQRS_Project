@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.1.2 Chrome/138.0.7204.243 Electron/37.4.0 Safari/537.36" version="28.1.2">
   <diagram name="Page-1" id="9P6xvFItAsFAy5WrNmwi">
-    <mxGraphModel dx="870" dy="427" grid="1" gridSize="10" guides="0" tooltips="1" connect="0" arrows="0" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="903" dy="442" grid="1" gridSize="10" guides="0" tooltips="1" connect="0" arrows="0" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -196,17 +196,17 @@
         <mxCell id="FR2BQuQFroSsw3Np757j-39" value="費用" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=6;" vertex="1" parent="FR2BQuQFroSsw3Np757j-37">
           <mxGeometry x="65" y="32" width="41" height="13" as="geometry" />
         </mxCell>
-        <mxCell id="FR2BQuQFroSsw3Np757j-40" value="売上総利益" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=6;" vertex="1" parent="FR2BQuQFroSsw3Np757j-37">
+        <mxCell id="FR2BQuQFroSsw3Np757j-40" value="純利益" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=6;" vertex="1" parent="FR2BQuQFroSsw3Np757j-37">
           <mxGeometry x="66" y="91" width="41" height="13" as="geometry" />
         </mxCell>
         <mxCell id="FR2BQuQFroSsw3Np757j-41" value="資産" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=6;" vertex="1" parent="FR2BQuQFroSsw3Np757j-37">
-          <mxGeometry x="124" y="30" width="70" height="13" as="geometry" />
+          <mxGeometry x="124" y="31" width="70" height="13" as="geometry" />
         </mxCell>
         <mxCell id="FR2BQuQFroSsw3Np757j-42" value="株主資本" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=6;" vertex="1" parent="FR2BQuQFroSsw3Np757j-37">
           <mxGeometry x="184" y="71" width="70" height="13" as="geometry" />
         </mxCell>
         <mxCell id="FR2BQuQFroSsw3Np757j-43" value="負債" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=6;" vertex="1" parent="FR2BQuQFroSsw3Np757j-37">
-          <mxGeometry x="185" y="30" width="70" height="13" as="geometry" />
+          <mxGeometry x="185" y="31" width="70" height="13" as="geometry" />
         </mxCell>
         <mxCell id="FR2BQuQFroSsw3Np757j-44" value="データ構造&lt;div&gt;&lt;u&gt;LedgerBalanceDTO&lt;/u&gt;&lt;/div&gt;&lt;div&gt;{&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;date : Date,&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;coa : Integer,&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;balance : Double,&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;accountBalanceType : Enum,&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;transactionBalanceType : Enum&lt;br&gt;&lt;/div&gt;&lt;div&gt;}&lt;br&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="1890" y="60" width="236" height="190" as="geometry" />
