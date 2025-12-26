@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: command-deployment
+  namespace: accounting-core
+  labels:
+    app: springboot-command
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: springboot-command
+  template:
+    metadata:
+      name: command-pod
+      namespace: accounting-core
+      labels: 
+        app: springboot-command
+    spec:
+      containers:
+      - name: springboot-command
+        image: thee5176/springboot_cqrs_command
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - secretRef:
+            name: springboot-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: command-service
+  namespace: accounting-core
+spec:
+  selector:
+    app: springboot-command
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30000

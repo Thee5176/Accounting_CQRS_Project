@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  namespace: accounting-core
+  labels:
+    app: react-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: react-frontend
+  template:
+    metadata:
+      name: frontend-pod
+      namespace: accounting-core
+      labels:
+        app: react-frontend
+    spec:
+      containers:
+      - name: react-frontend
+        image: thee5176/react_cqrs_ui
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - secretRef:
+            name: react-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  namespace: accounting-core
+spec:
+  selector:
+    app: react-frontend
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+      nodePort: 30002
