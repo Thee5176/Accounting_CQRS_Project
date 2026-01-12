@@ -121,9 +121,9 @@ jobs:
             echo "AUTH0_CLIENT_SECRET=${{ secrets.AUTH0_CLIENT_SECRET }}"   >> env.properties
 
             echo "--- Pulling latest Docker images: ---"
-            sudo service docker start
-            docker-compose -f docker/compose.yaml -f docker/docker-compose.override.yaml pull
-            docker-compose -f docker/compose.yaml -f docker/docker-compose.override.yaml up -d --force-recreate --remove-orphans
+            sudo systemctl start docker
+            docker compose -f docker/compose.yaml -f docker/docker-compose.override.yaml pull
+            docker compose -f docker/compose.yaml -f docker/docker-compose.override.yaml up -d --force-recreate --remove-orphans
             
             echo "--- Deployment complete. ---"
           EOF
