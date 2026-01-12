@@ -112,10 +112,9 @@ jobs:
             git pull origin ${{ github.head_ref }} || git pull origin main
 
             echo "--- Setup Environment Variables outside git repo: ---"
-            echo "DB_URL=${{ secrets.DB_URL }}"           >  env.properties
-            echo "DB_USERNAME=${{ vars.DB_USER }}"        >> env.properties
-            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> env.properties
-            echo "JWT_SECRET=${{ secrets.JWT_SECRET }}"   >> env.properties
+            echo "DB_URL=${{ secrets.DB_URL }}"                             >>  env.properties
+            echo "DB_USERNAME=${{ vars.DB_USERNAME }}"                          >> env.properties
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}"                   >> env.properties
             echo "AUTH0_DOMAIN=${{ vars.AUTH0_DOMAIN }}"                    >> env.properties
             echo "AUTH0_AUDIENCE=${{ vars.AUTH0_AUDIENCE }}"                >> env.properties
             echo "AUTH0_CLIENT_ID=${{ vars.AUTH0_CLIENT_ID }}"              >> env.properties
