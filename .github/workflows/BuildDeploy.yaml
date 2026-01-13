@@ -101,7 +101,7 @@ jobs:
           fi
       - name: Deliver Code to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -6 -i ~/.ssh/my_ec2_key ubuntu@${{ vars.EC2_PUBLIC_IP }} <<EOF
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/my_ec2_key ubuntu@${{ vars.EC2_PUBLIC_IP }} <<EOF
           
             echo "--- Checkout Latest Compose File from Branch ${{ github.head_ref }}: ---"
             cd /home/ubuntu/Accounting_CQRS_Project
