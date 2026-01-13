@@ -22,6 +22,12 @@ spec:
         image: thee5176/react_cqrs_ui
         ports:
         - containerPort: 3000
+        env:
+          # Backend service URLs for internal pod-to-pod communication
+          - name: REACT_APP_COMMAND_SERVICE_URL
+            value: "http://command-service-internal:8080"
+          - name: REACT_APP_QUERY_SERVICE_URL
+            value: "http://query-service-internal:8081"
         envFrom:
         - secretRef:
             name: react-config

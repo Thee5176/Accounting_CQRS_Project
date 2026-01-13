@@ -5,7 +5,7 @@ services:
     ports:
       - 8181:8080
     env_file:
-      - ./env.properties
+      - ../env.properties
 
   query_service:
     image: thee5176/springboot_cqrs_query:latest
@@ -13,7 +13,7 @@ services:
     ports:
       - 8182:8081
     env_file:
-      - ./env.properties
+      - ../env.properties
 
   frontend_service:
     image: thee5176/react_cqrs_ui:latest
@@ -21,4 +21,4 @@ services:
     ports:
       - 80:3000
     env_file:
-      - ./env.properties
+      - ../env.properties

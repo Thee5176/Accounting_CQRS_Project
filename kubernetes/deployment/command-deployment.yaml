@@ -16,6 +16,7 @@ spec:
       namespace: accounting-core
       labels: 
         app: springboot-command
+        tier: backend
     spec:
       containers:
       - name: springboot-command

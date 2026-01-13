@@ -16,6 +16,7 @@ spec:
       namespace: accounting-core
       labels: 
         app: springboot-query
+        tier: backend
     spec:
       containers:
       - name: springboot-query
