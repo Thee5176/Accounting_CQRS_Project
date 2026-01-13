@@ -111,8 +111,8 @@ jobs:
             git pull origin ${{ github.head_ref }} || git pull origin main
 
             echo "--- Setup Environment Variables outside git repo: ---"
-            echo "DB_URL=${{ secrets.DB_URL }}"                             >>  env.properties
-            echo "DB_USERNAME=${{ vars.DB_USERNAME }}"                          >> env.properties
+            echo "DB_URL=${{ secrets.DB_URL }}"                             >  env.properties
+            echo "DB_USERNAME=${{ vars.DB_USERNAME }}"                      >> env.properties
             echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}"                   >> env.properties
             echo "AUTH0_DOMAIN=${{ vars.AUTH0_DOMAIN }}"                    >> env.properties
             echo "AUTH0_AUDIENCE=${{ vars.AUTH0_AUDIENCE }}"                >> env.properties
@@ -120,7 +120,6 @@ jobs:
             echo "AUTH0_CLIENT_SECRET=${{ secrets.AUTH0_CLIENT_SECRET }}"   >> env.properties
 
             echo "--- Pulling latest Docker images: ---"
-            sudo systemctl start docker
             docker compose -f docker/compose.yaml -f docker/docker-compose.override.yaml pull
             docker compose -f docker/compose.yaml -f docker/docker-compose.override.yaml up -d --force-recreate --remove-orphans
             
