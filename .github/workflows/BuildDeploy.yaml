@@ -71,12 +71,11 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/my_ec2_key ubuntu@${{ vars.EC2_PUBLIC_IP }} <<EOF
           
-            echo "--- Checkout Latest Compose File from Branch ${{ github.head_ref }}: ---"
+            echo "--- Checkout Latest Compose File from ${{ github.ref_name }} branch: ---"
             cd /home/ubuntu/Accounting_CQRS_Project
-            # Ensure we're on the right branch and have latest changes
-            git fetch origin ${{ github.head_ref }} || true
             git reset --hard HEAD
-            git pull origin ${{ github.head_ref }} || git pull origin main
+            git checkout ${{ github.ref_name }}
+            git pull origin ${{ github.ref_name }}
 
             echo "--- Setup Environment Variables outside git repo: ---"
             echo "DB_URL=${{ secrets.DB_URL }}"                             >  env.properties
