@@ -51,6 +51,8 @@ jobs:
     environment: "Development"
     name: Deliver Code to EC2 Instance via SSH
     runs-on: ubuntu-latest
+    env:
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -71,11 +73,11 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/my_ec2_key ubuntu@${{ vars.EC2_PUBLIC_IP }} <<EOF
           
-            echo "--- Checkout Latest Compose File from ${{ github.ref_name }} branch: ---"
+            echo "--- Checkout Latest Compose File from $BRANCH_NAME branch: ---"
             cd /home/ubuntu/Accounting_CQRS_Project
             git reset --hard HEAD
-            git checkout ${{ github.ref_name }}
-            git pull origin ${{ github.ref_name }}
+            git checkout $BRANCH_NAME
+            git pull origin $BRANCH_NAME
 
             echo "--- Setup Environment Variables outside git repo: ---"
             echo "DB_URL=${{ secrets.DB_URL }}"                             >  env.properties
