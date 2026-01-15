@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: query-deployment
+  namespace: accounting-core
+  labels:
+    app: springboot-query
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: springboot-query
+  template:
+    metadata:
+      name: query-pod
+      namespace: accounting-core
+      labels: 
+        app: springboot-query
+        tier: backend
+    spec:
+      containers:
+      - name: springboot-query
+        image: thee5176/springboot_cqrs_query
+        ports:
+        - containerPort: 8081
+        envFrom:
+        - secretRef:
+            name: springboot-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: query-service
+  namespace: accounting-core
+spec:
+  selector:
+    app: springboot-query
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+      nodePort: 30001

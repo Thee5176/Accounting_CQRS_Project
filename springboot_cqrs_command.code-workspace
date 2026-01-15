@@ -1,0 +1,28 @@
+{
+	"folders": [
+		{
+			"name": "springboot_cqrs_command",
+			"path": "springboot_cqrs_command"
+		},
+		{
+			"name": "springboot_cqrs_query",
+			"path": "springboot_cqrs_query"
+		},
+		{
+			"name": "react_mui_cqrs",
+			"path": "react_mui_cqrs"
+		},
+		{
+			"name": "terraform_iac",
+			"path": "terraform_iac"
+		},
+		{
+			"name": "DoubleLedger_Accounting_CQRS",
+			"path": "."
+		}
+	],
+	"settings": {
+		"java.compile.nullAnalysis.mode": "disabled",
+		"java.configuration.updateBuildConfiguration": "automatic"
+	}
+}

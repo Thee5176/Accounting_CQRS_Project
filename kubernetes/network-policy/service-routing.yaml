@@ -1,0 +1,94 @@
+---
+# Network Policy: Allow frontend to communicate with backend services
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: frontend-to-backend
+  namespace: accounting-core
+spec:
+  podSelector:
+    matchLabels:
+      app: react-frontend
+  policyTypes:
+    - Egress
+  egress:
+    # Allow DNS for service discovery
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: UDP
+          port: 53
+    # Allow communication to command service
+    - to:
+        - podSelector:
+            matchLabels:
+              app: springboot-command
+      ports:
+        - protocol: TCP
+          port: 8080
+    # Allow communication to query service
+    - to:
+        - podSelector:
+            matchLabels:
+              app: springboot-query
+      ports:
+        - protocol: TCP
+          port: 8081
+    # Allow external HTTPS (for external APIs if needed)
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: TCP
+          port: 443
+
+---
+# Network Policy: Allow backend services to receive traffic from frontend
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: backend-from-frontend
+  namespace: accounting-core
+spec:
+  podSelector:
+    matchLabels:
+      tier: backend
+  policyTypes:
+    - Ingress
+  ingress:
+    # Allow traffic from frontend
+    - from:
+        - podSelector:
+            matchLabels:
+              app: react-frontend
+      ports:
+        - protocol: TCP
+          port: 8080
+        - protocol: TCP
+          port: 8081
+
+---
+# Network Policy: Allow backend services to communicate with database
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: backend-to-database
+  namespace: accounting-core
+spec:
+  podSelector:
+    matchLabels:
+      tier: backend
+  policyTypes:
+    - Egress
+  egress:
+    # Allow DNS
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: UDP
+          port: 53
+    # Allow external database connections (RDS)
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: TCP
+          port: 5432  # PostgreSQL

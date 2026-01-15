@@ -1,17 +1,24 @@
 services:
   command_service:
+    image: thee5176/springboot_cqrs_command:latest
     container_name: springboot_cqrs_command
     ports:
-    - 8181:8080
-
+      - 8181:8080
+    env_file:
+      - ../env.properties
 
   query_service:
+    image: thee5176/springboot_cqrs_query:latest
     container_name: springboot_cqrs_query
     ports:
-    - 8182:8081
-
+      - 8182:8081
+    env_file:
+      - ../env.properties
 
   frontend_service:
+    image: thee5176/react_cqrs_ui:latest
     container_name: react_mui_cqrs
     ports:
-    - 80:3000
+      - 80:3000
+    env_file:
+      - ../env.properties
