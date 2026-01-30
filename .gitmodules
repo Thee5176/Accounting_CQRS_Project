@@ -14,3 +14,6 @@
 	path = terraform_iac
 	url = https://github.com/Thee5176/terraform_iac.git
 	branch = main
+[submodule "native_expo_paper"]
+	path = native_expo_paper
+	url = https://github.com/Thee5176/expo_paper_ui.git
