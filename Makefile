@@ -213,6 +213,28 @@ status:
 	@kubectl get all -n $(NAMESPACE) || echo "Namespace not found"
 
 # ============================================================================
+# LOCAL DATABASE COMMANDS
+# ============================================================================
+
+start-db:
+	@echo "$(BLUE)Starting local Postgres database...$(NC)"
+	@docker compose up -d postgres
+	@echo "$(YELLOW)Waiting for database to be ready...$(NC)"
+	@sleep 5
+	@echo "$(GREEN)✓ Local database running on port 5433$(NC)"
+
+stop-db:
+	@echo "$(BLUE)Stopping local Postgres database...$(NC)"
+	@docker compose stop postgres
+	@echo "$(GREEN)✓ Local database stopped$(NC)"
+
+clean-db: stop-db
+	@echo "$(RED)Removing local Postgres database and volumes...$(NC)"
+	@docker compose rm -f postgres
+	@docker volume rm -f doubleledger_accounting_cqrs_ledger_pgdata
+	@echo "$(GREEN)✓ Local database cleaned$(NC)"
+
+# ============================================================================
 # DEVELOPMENT HELPERS
 # ============================================================================
 

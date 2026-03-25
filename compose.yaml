@@ -2,28 +2,46 @@ services:
   command_service:
     build: springboot_cqrs_command/.
     container_name: springboot_cqrs_command
-    environment:
-      - "SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/record"
-      - "SPRING_DATASOURCE_USERNAME=springboot_admin"
-      - "SPRING_DATASOURCE_PASSWORD=password"
+    env_file:
+      - ./env.properties
     ports:
-    - "8181:8080"
+      - "8181:8080"
     depends_on:
-    - postgres
+      - postgres
 
   query_service:
     build: springboot_cqrs_query/.
     container_name: springboot_cqrs_query
-    environment:
-      - "SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/record"
-      - "SPRING_DATASOURCE_USERNAME=springboot_admin"
-      - "SPRING_DATASOURCE_PASSWORD=password"
-      - "SERVER_PORT=8081"
+    env_file:
+      - ./env.properties
     ports:
       - "8182:8081"
+    depends_on:
+      - postgres
 
   frontend_service:
     build: react_mui_cqrs/.
     container_name: react_mui_cqrs
     ports:
-    - "80:3000"
+      - "80:3000"
+
+  # ── Local development Postgres ────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: ledger_postgres_local
+    environment:
+      POSTGRES_DB: record
+      POSTGRES_USER: springboot_admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+    volumes:
+      - ledger_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U springboot_admin -d record"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  ledger_pgdata:
